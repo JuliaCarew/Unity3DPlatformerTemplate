@@ -90,18 +90,18 @@ MonoBehaviour:
   SquashEffect: {x: 1.4, y: 0.6, z: 1.4}
   StretchEffect: {x: 0.6, y: 1.4, z: 0.6}
   SquashAndStretchRecoverSpeed: 5
-  maxStepClimbable: 2
+  maxStepClimbable: 4
   maxTraversableSlope: 40
   slideSpeed: 42
   platformGripForce: 7.7
   stompDamage: 1
   airRotationSpeed: 0.38
-  airAcceleration: 18
+  airAcceleration: 15
   airFriction: 1.1
   consecutiveJumpForces:
-  - {x: 0, y: 13, z: 0}
-  - {x: 0, y: 16, z: 0}
-  - {x: 0, y: 17, z: 6}
+  - {x: 0, y: 12, z: 0}
+  - {x: 0, y: 14, z: 0}
+  - {x: 0, y: 18, z: 6}
   chainJumpWindow: 0.1
   jumpBufferTime: 0.17
   jumpAudio: {fileID: 0}

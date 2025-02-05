@@ -111,7 +111,7 @@ MonoBehaviour:
   followTarget: {fileID: 0}
   cameraOffset: {x: 0, y: 3.5, z: 7}
   positionLerpSpeed: 6
-  orbitSpeed: 100
+  orbitSpeed: 60
   lookAtSpeed: 100
   minimumDistance: 5
 --- !u!135 &13500000

@@ -30,13 +30,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 100000}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.08223978, y: -0.915441, z: 0.24245119, w: 0.3105188}
+  m_LocalRotation: {x: 0.041094314, y: -0.9392217, z: 0.12115021, w: 0.31858525}
   m_LocalPosition: {x: 24.585249, y: 0.80725104, z: -34.771503}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 29.668, y: -142.526, z: 0}
+  m_LocalEulerAnglesHint: {x: 14.7, y: -142.526, z: 0}
 --- !u!20 &2000000
 Camera:
   m_ObjectHideFlags: 0
@@ -46,7 +46,7 @@ Camera:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0.1868512, g: 0.25144172, b: 0.35294116, a: 0.019607844}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -111,7 +111,7 @@ MonoBehaviour:
   followTarget: {fileID: 0}
   cameraOffset: {x: 0, y: 3.5, z: 7}
   positionLerpSpeed: 6
-  orbitSpeed: 60
+  orbitSpeed: 100
   lookAtSpeed: 100
   minimumDistance: 5
 --- !u!135 &13500000

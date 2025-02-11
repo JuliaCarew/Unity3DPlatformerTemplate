@@ -39,6 +39,7 @@ public class GameManager : Singleton<GameManager>
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     static void StartedWithoutGameManager()
     {
+        SoundManager.IsQuittingGame = false;
         IsQuittingGame = false;
         Instance.Initialize();
     }

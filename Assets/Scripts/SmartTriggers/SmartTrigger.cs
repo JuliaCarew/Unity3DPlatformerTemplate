@@ -181,7 +181,7 @@ public class SmartTrigger : MonoBehaviour
     {
         if (other.isTrigger) return false;
         if (!IsValidTrigger(other)) return false;
-        Debug.Log($"Processing collider {other} {other.gameObject} has player controller? {other.GetComponent<PlayerController>() != null}", other);
+        //Debug.Log($"Processing collider {other} {other.gameObject} has player controller? {other.GetComponent<PlayerController>() != null}", other);
         triggeredColliders.Add(other);
 
         // Track rigidbody for weight calculation

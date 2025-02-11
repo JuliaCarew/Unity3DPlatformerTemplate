@@ -4,6 +4,7 @@
 //       but doing so requires deriving directly from InputBindingComposite.
 #if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine.InputSystem.Layouts;
 using UnityEngine.InputSystem.Utilities;
 using UnityEngine.InputSystem;
@@ -12,9 +13,9 @@ using System.ComponentModel;
 using UnityEngine.InputSystem.Processors;
 using UnityEngine.InputSystem.Composites;
 
+#if UNITY_EDITOR
 [InitializeOnLoad] // Automatically register in editor.
 #endif
-
 /// <summary>
 /// A single axis value computed from one axis that pulls in the <see cref="negative"/> direction (<see cref="minValue"/>) and one
 /// axis that pulls in the <see cref="positive"/> direction (<see cref="maxValue"/>).

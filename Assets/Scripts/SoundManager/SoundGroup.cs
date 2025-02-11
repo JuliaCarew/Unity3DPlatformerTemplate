@@ -32,11 +32,11 @@ using System.Collections;
 /// </summary>
 [RequireComponent (typeof (AudioSource))]
 public class SoundGroup : MonoBehaviour {
-	public AudioClip[] Sounds;
+	public AudioClip[] Sounds = new AudioClip[0];
 	public bool Music=false;
 	public bool RandomPitch=false;
-    public float RandomPitchMin = 0.9f;
-    public float RandomPitchMax = 1.1f;
+    public float RandomPitchMin = 1.0f;
+    public float RandomPitchMax = 1.0f;
 	private float startingvolume;
 	private int played=0;
     [HideInInspector]
@@ -62,10 +62,17 @@ public class SoundGroup : MonoBehaviour {
     /// </summary>
 	void OnEnable () {
         //If there isn't any sounds in our array we can't play anything, return this to the pool.
-		if(Sounds.Length==0) {
-			Debug.Log("There is no sound on "+gameObject.name+" SoundGroup, ABORT");
-		    SoundManager.RecycleSoundToPool(this);
-			return;
+		if(Sounds == null || Sounds.Length == 0) {
+            if (mAudio != null && mAudio.clip != null)
+            {
+                Sounds = new AudioClip[] { mAudio.clip };
+            }
+            else
+            {
+                Debug.Log("There is no sound on " + gameObject.name + " SoundGroup, ABORT");
+                SoundManager.RecycleSoundToPool(this);
+                return;
+            }
 		}
 
         //If there isn't an audio reference for some reason, attempt to get one.
@@ -175,6 +182,7 @@ public class SoundGroup : MonoBehaviour {
     /// <returns></returns>
     IEnumerator WaitForStopPlaying()
     {
+        yield return null;
         //While audio is playing wait for 0.05f seconds
         //and then check again if audio is still playing.
         while (mAudio.isPlaying)

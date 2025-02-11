@@ -28,7 +28,13 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
     }
 
     protected bool creationFailed = false;
-
+    
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    static void BeforeFirstSceneLoaded()
+    {
+        IsQuittingGame = false;
+        _instance = null;
+    }
     // Start is called before the first frame update
     protected virtual void Awake() {
         IsQuittingGame = false;

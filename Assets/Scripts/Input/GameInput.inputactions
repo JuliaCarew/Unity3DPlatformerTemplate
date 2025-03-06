@@ -67,6 +67,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Float",
+                    "type": "Button",
+                    "id": "b740c01b-420d-4273-8059-aadad14fa3d0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -540,6 +549,17 @@
                     "processors": "",
                     "groups": "KeyboardSecondary",
                     "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1064624e-0262-4cf0-a9e7-255eef544e91",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Float",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -26,6 +26,19 @@ public class PlayerController : MonoBehaviour
     
     public bool JoinedThroughGameManager { get; set; } = false;
     public static List<PlayerController> players = new List<PlayerController>();
+
+    // ADDED - GLIDING MECHANIC
+    private bool isFloating = false;
+    private float floatGravity = 0.5f; // descent speed
+    private float floatForwardSpeed = 2.0f; // forward momentum
+    private float normalGravity = 9.81f; // Default gravity 
+
+    [Header("Added - Gliding Mechanic")]
+    public GameObject gliderPrefab;
+    private GameObject gliderInstance;
+    [Header("Glider Audio")]
+    [SerializeField] private AudioClip glidingSound;
+
     private void OnEnable()
     {
         if(moveController != null)
@@ -110,14 +123,77 @@ public class PlayerController : MonoBehaviour
             inputVector = inputVal.Get<Vector2>();
     }
     /// <summary>
-    /// Handle jump input from the input system
+    /// Handle jump input from the input system, now with gliding mechanic if pressed space while in the air.
     /// </summary>
     void OnJump()
     {
         if (!GameManager.Instance.IsShowingPauseMenu)
-            moveController.RequestJump();
+        {
+            if (moveController.isGrounded)
+            {
+                moveController.RequestJump();
+                isFloating = false; // Reset floating state when grounded
+            }
+            else if (isFloating)
+            {
+                EndFloating(); // Cancel floating if already floating
+                //StopGlidingSound();
+            }
+            else
+            {
+                StartFloating();
+                glidingSound.PlaySound(transform.position);
+            }
+        }
     }
 
+    /// <summary>
+    /// Float forward at set gravity. Follow player's rotation and adjust prefab instantiation rotation, offset & scale.
+    /// </summary>
+    void StartFloating() // ADDED - GLIDING MECHANIC
+    {
+        if (gliderInstance) return;
+
+        // start gliding sound
+        
+
+        // handle floating state and parameters
+        isFloating = true;
+        rb.velocity = new Vector3(moveDirection.x * floatForwardSpeed, -floatGravity, moveDirection.z * floatForwardSpeed); // player gravity fall
+        characterAnimator.SetBool("isFloating", true);
+
+        float playerYRotation = transform.eulerAngles.y; // follow player's rotation
+    
+        // Adjusting the default rotation of the prefab
+        Quaternion baseGliderRotation = Quaternion.Euler(90, 0, 0); // initial rotation of glider
+        Quaternion gliderRotation = Quaternion.Euler(0, playerYRotation, 90) * baseGliderRotation; // rotation on instances
+
+        Vector3 gliderOffset = transform.TransformPoint(new Vector3(0f, 1f, -3.5f)); // position glider above player
+        gliderInstance = Instantiate(gliderPrefab, gliderOffset, gliderRotation, transform); // Instantiate prefab with all adjustments.
+
+        gliderInstance.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f); // scale down
+    }
+
+    /// <summary>
+    /// Press space to end floating state and apply normal gravity
+    /// </summary>
+    void EndFloating() // ADDED - GLIDING MECHANIC
+    {
+        isFloating = false;
+
+        // stop glidign sound
+        
+
+        // handle end float state
+        rb.velocity = new Vector3(rb.velocity.x, -normalGravity, rb.velocity.z); // Apply normal gravity
+        characterAnimator.SetBool("isFloating", false);
+
+        if (gliderInstance)
+        {
+            Destroy(gliderInstance);
+            gliderInstance = null; // reset instance for next use
+        }
+    }
     void OnPause()
     {
         GameManager.Instance.TogglePauseMenu();
@@ -155,15 +231,27 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void FixedUpdate()
     {
-        if (moveController.enabled) {
+        if (moveController.enabled)
+        {
             moveController.ApplyMovement(moveDirection);
             moveController.UpdateMovement();
         }
 
-        // Normal movement
+        if (isFloating)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, -floatGravity, rb.velocity.z); // slow descent while floating
+        }
+
+        // End floating when player touches the ground
+        if (moveController.isGrounded && isFloating)
+        {
+            EndFloating();
+        }
+
         UpdateVisualFeedback();
 
-        if (transform.position.y < -1000f) {
+        if (transform.position.y < -1000f)
+        {
             CheckpointManager.TeleportPlayerToCheckpoint(gameObject);
             if (CameraFollower)
                 CameraFollower.transform.position = gameObject.transform.position;
